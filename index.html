@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Fitness - Login & Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Bubbles and container HTML content here -->
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+    <div id="toast" class="toast"></div>
+
+    <div class="container">
+        <div class="form-container" id="loginContainer">
+            <div class="logo">
+                <i class="fas fa-dumbbell"></i>
+                <h2>DUMBFIT</h2>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <div class="validation-message" id="loginEmailError"></div>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <div class="validation-message" id="loginPasswordError"></div>
+            </div>
+            <button class="btn" onclick="login()">LOGIN</button>
+            <div class="toggle-form">
+                Don't have an account? <a onclick="showRegister()">Sign Up</a>
+            </div>
+            <div class="social-login">
+                <div class="social-btn" >
+                    <i class="fab fa-google"></i>
+                </div>
+                <div class="social-btn" >
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-btn">
+                    <i class="fab fa-apple"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container" id="registerContainer">
+            <div class="logo">
+                <i class="fas fa-dumbbell pulse"></i>
+                <h2>CREATE ACCOUNT</h2>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="regName" placeholder="Full Name" required>
+                <div class="validation-message" id="regNameError"></div>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-at"></i>
+                <input type="text" id="regUsername" placeholder="Username" required oninput="validateUsername()">
+                <div class="validation-message" id="regUsernameError"></div>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="regEmail" placeholder="Email" required oninput="validateEmailField('regEmail', 'regEmailError')">
+                <div class="validation-message" id="regEmailError"></div>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="regPassword" placeholder="Password" required oninput="checkPasswordStrength()">
+                <div class="password-strength">
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+                <div class="validation-message" id="regPasswordError"></div>
+            </div>
+            <div class="terms">
+                <input type="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms">I agree to the Terms & Conditions</label>
+                <div class="validation-message" id="termsError"></div>
+            </div>
+            <button class="btn" onclick="register()">SIGN UP</button>
+            <div class="toggle-form">
+                Already have an account? <a onclick="showLogin()">Sign In</a>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Fitness Nutrition</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+            
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: 'Poppins', Arial, sans-serif;
+                color: #e0e0e0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                overflow-x: hidden;
+                position: relative;
+                background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/api/placeholder/1200/800') no-repeat center center fixed;
+                background-size: cover;
+            }
+            
+            .container {
+                text-align: center;
+                position: relative;
+                z-index: 1;
+                max-width: 1000px;
+                padding: 40px 20px;
+                animation: fadeIn 1.5s ease-in-out;
+            }
+            
+            h1 {
+                font-size: 3.5em;
+                margin-bottom: 20px;
+                color: #ffcc00;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                animation: slideInDown 1s ease-out;
+            }
+            
+            p {
+                font-size: 1.4em;
+                margin-bottom: 40px;
+                color: #ffffff;
+                animation: slideInUp 1.2s ease-out;
+            }
+            
+            .links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+                margin-bottom: 40px;
+            }
+            
+            .link {
+                display: inline-block;
+                padding: 18px 32px;
+                font-size: 1.2em;
+                font-weight: 600;
+                text-decoration: none;
+                color: #fff;
+                background-color: rgba(51, 51, 51, 0.8);
+                border: 2px solid #ffcc00;
+                border-radius: 8px;
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            }
+            
+            .link:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: 0.5s;
+            }
+            
+            .link:hover {
+                background-color: #ffcc00;
+                color: #000;
+                transform: translateY(-5px) scale(1.05);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            }
+            
+            .link:hover:before {
+                left: 100%;
+            }
+            
+            .back-button {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 24px;
+                font-size: 1.1em;
+                text-decoration: none;
+                color: #000;
+                background-color: #ffcc00;
+                border: none;
+                border-radius: 8px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                z-index: 100;
+            }
+            
+            .back-button:hover {
+                background-color: #e6b800;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+            }
+            
+            .nutrition-facts {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+                margin: 20px 0 40px;
+            }
+            
+            .fact-card {
+                background-color: rgba(0, 0, 0, 0.7);
+                border: 1px solid #ffcc00;
+                border-radius: 12px;
+                padding: 20px;
+                width: 220px;
+                text-align: center;
+                transition: all 0.4s ease;
+                transform: translateY(50px);
+                opacity: 0;
+                animation: floatUp 0.8s ease-out forwards;
+                animation-delay: calc(var(--delay) * 0.2s);
+            }
+            
+            .fact-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2);
+                border-color: #ffcc00;
+            }
+            
+            .fact-icon {
+                font-size: 2.5em;
+                color: #ffcc00;
+                margin-bottom: 10px;
+            }
+            
+            .fact-title {
+                font-size: 1.2em;
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: #ffcc00;
+            }
+            
+            .fact-text {
+                font-size: 0.9em;
+                color: #e0e0e0;
+            }
+            
+            .quote-section {
+                margin: 30px 0;
+                padding: 20px;
+                border-left: 4px solid #ffcc00;
+                background-color: rgba(0, 0, 0, 0.6);
+                border-radius: 0 8px 8px 0;
+                animation: fadeInLeft 1.5s ease-out;
+            }
+            
+            .quote {
+                font-style: italic;
+                font-size: 1.3em;
+                color: #fff;
+            }
+            
+            .quote-author {
+                text-align: right;
+                color: #ffcc00;
+                margin-top: 10px;
+                font-weight: 600;
+            }
+            
+            @keyframes fadeIn {
+                0% {opacity: 0;}
+                100% {opacity: 1;}
+            }
+            
+            @keyframes slideInDown {
+                0% {
+                    transform: translateY(-50px);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideInUp {
+                0% {
+                    transform: translateY(50px);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes floatUp {
+                0% {
+                    transform: translateY(50px);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes fadeInLeft {
+                0% {
+                    transform: translateX(-50px);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+            
+            .cta-button {
+                display: inline-block;
+                padding: 15px 40px;
+                font-size: 1.3em;
+                font-weight: bold;
+                text-decoration: none;
+                color: #000;
+                background-color: #ffcc00;
+                border: none;
+                border-radius: 50px;
+                margin-top: 20px;
+                transition: all 0.4s ease;
+                box-shadow: 0 6px 12px rgba(255, 204, 0, 0.3);
+                animation: pulse 2s infinite;
+            }
+            
+            .cta-button:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(255, 204, 0, 0.5);
+                background-color: #ffe066;
+            }
+            
+            @media (min-width: 768px) {
+                h1 {
+                    font-size: 4em;
+                }
+                
+                p {
+                    font-size: 1.6em;
+                    max-width: 800px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            }
+            
+            @media (max-width: 767px) {
+                .links {
+                    flex-direction: column;
+                    gap: 15px;
+                }
+                
+                .nutrition-facts {
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .fact-card {
+                    width: 100%;
+                    max-width: 300px;
+                }
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    </head>
+    <body> 
+        <a href="Main2.html" class="back-button">Back to Home</a> 
+        <div class="container">
+            <h1>Fitness Nutrition</h1>
+            <p>Fuel your body with the right balance of nutrients to achieve optimal performance and recovery.</p>
+            
+            <div class="nutrition-facts">
+                <div class="fact-card" style="--delay: 1">
+                    <div class="fact-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="fact-title">Energy Balance</div>
+                    <div class="fact-text">The foundation of any fitness nutrition plan is understanding your energy needs for your specific goals.</div>
+                </div>
+                
+                <div class="fact-card" style="--delay: 2">
+                    <div class="fact-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <div class="fact-title">Muscle Growth</div>
+                    <div class="fact-text">Adequate protein, carbs and calories are essential for muscle repair and growth after workouts.</div>
+                </div>
+                
+                <div class="fact-card" style="--delay: 3">
+                    <div class="fact-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="fact-title">Recovery</div>
+                    <div class="fact-text">Proper nutrition timing helps optimize recovery and prepare you for your next training session.</div>
+                </div>
+                
+                <div class="fact-card" style="--delay: 4">
+                    <div class="fact-icon">
+                        <i class="fas fa-apple-alt"></i>
+                    </div>
+                    <div class="fact-title">Quality Matters</div>
+                    <div class="fact-text">Focus on whole, nutrient-dense foods for maximum health benefits and performance.</div>
+                </div>
+            </div>
+            
+            <div class="quote-section">
+                <div class="quote">"You can't out-train a bad diet. Nutrition is the foundation upon which fitness success is built."</div>
+                <div class="quote-author">— Fitness Experts</div>
+            </div>
+            
+            <p>Explore the essential nutrients for your fitness journey:</p>
+            
+            <div class="links">
+                <a href="Carbohydrates.html" class="link">
+                    <i class="fas fa-bread-slice"></i> Carbohydrates
+                </a>
+                <a href="Fact.html" class="link">
+                    <i class="fas fa-oil-can"></i> Fats
+                </a>
+                <a href="Protein.html" class="link">
+                    <i class="fas fa-drumstick-bite"></i> Proteins
+                </a>
+            </div>
+            
+            <a  class="cta-button">Choose One</a>
+        </div>
+    </body> 
+</html>

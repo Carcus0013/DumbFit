@@ -1,0 +1,133 @@
+/* Import Orbitron font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* Base Page Setup */
+body {
+    background-color: #0e0e0e; /* Dark background */
+    color: #ffffff;
+    font-family: 'Orbitron', Arial, sans-serif; /* Futuristic gym-style font */
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 20px 10px;
+    background-color: #1a1a1a;
+    box-shadow: 0 4px 10px rgba(255, 165, 0, 0.2);
+    border-bottom: 3px solid #ff9800;
+}
+
+#femaleMap {
+    display: none;
+  }
+header h1 {
+    color: #ff9800; /* Orange Title */
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+header h2 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+/* Navigation Links */
+nav {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: #ff9800;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    position: relative;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: #ff5722;
+    transition: width 0.3s;
+}
+
+nav a:hover {
+    color: #ff5722;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Muscle Map Box */
+.muscle-map-box {
+    background-color: #1a1a1a;
+    border-radius: 20px;
+    border: 2px solid #ff980055;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 95%;
+    max-width: 1000px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+/* SVG Styling */
+.muscle-map {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid #ff980033;
+}
+
+/* Gender Toggle Buttons */
+.gender-switch button {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin: 10px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.gender-switch button:hover {
+    background-color: #ff9800;
+}
+
+/* Muscle Hover Effect for Male and Female Maps */
+#maleMap a:hover path,
+#maleMap a:hover polygon,
+#maleMap a:hover rect,
+#femaleMap a:hover path,
+#femaleMap a:hover polygon,
+#femaleMap a:hover rect {
+    fill: hotpink !important;
+    transition: fill 0.3s;
+}

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarbTracker - High Carbohydrate Foods</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #111;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .floating-carb {
+            position: absolute;
+            font-weight: bold;
+            color: #ffcc00;
+            animation: float 15s linear infinite;
+            opacity: 0.7;
+            font-size: 1.2rem;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+        
+        header {
+            background-color: #000;
+            color: #ffcc00;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #ffcc00;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .intro {
+            margin-bottom: 30px;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-left: 4px solid #ffcc00;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .food-card {
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #333;
+        }
+        
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2);
+            border-color: #ffcc00;
+        }
+        
+        .card-header {
+            background-color: #000;
+            color: #ffcc00;
+            padding: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 2px solid #ffcc00;
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        .carb-value {
+            font-size: 2rem;
+            color: #ffcc00;
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .carb-unit {
+            font-size: 1rem;
+            color: #aaa;
+        }
+        
+        .food-details {
+            margin-top: 15px;
+            line-height: 1.6;
+            color: #ddd;
+        }
+        
+        .nutrition-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        
+        .nutrition-table th, .nutrition-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        
+        .nutrition-table th {
+            color: #ffcc00;
+        }
+        
+        footer {
+            background-color: #000;
+            color: #888;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 3px solid #ffcc00;
+        }
+        
+        .section-title {
+            color: #ffcc00;
+            margin: 40px 0 20px;
+            border-bottom: 2px solid #ffcc00;
+            padding-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation" id="carbAnimation"></div>
+    
+    <header>
+        <h1>CarbTracker</h1>
+        <div class="subtitle">Your Guide to High-Carbohydrate Foods</div>
+    </header>
+    
+    <div class="container">
+        <div class="intro">
+            <p>Carbohydrates are one of the three main macronutrients along with proteins and fats. They serve as the body's primary energy source, providing fuel for your brain, muscles, and other vital organs. This guide highlights foods that are particularly high in carbohydrates per 100g serving, helping you make informed dietary choices.</p>
+        </div>
+        
+        <h2 class="section-title">Top High-Carbohydrate Foods</h2>
+        
+        <div class="card-container">
+            <div class="food-card">
+                <div class="card-header">White Rice (Cooked)</div>
+                <div class="card-body">
+                    <div class="carb-value">28.2g <span class="carb-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>White rice is a refined grain that has had its bran, germ, and husk removed. It's a staple food for more than half the world's population and is particularly prominent in Asian cuisines.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>130 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>2.7g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>0.4g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">White Bread</div>
+                <div class="card-body">
+                    <div class="carb-value">49.0g <span class="carb-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>White bread is made from wheat flour that has been refined to remove the bran and germ. This results in a softer, lighter bread with a longer shelf life but fewer nutrients than whole grain alternatives.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>265 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>9.0g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>2.7g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Potatoes (Boiled)</div>
+                <div class="card-body">
+                    <div class="carb-value">20.1g <span class="carb-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Potatoes are starchy tubers that are a staple food in many countries. They're particularly rich in potassium and vitamin C, while providing a significant source of carbohydrates.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>87 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>1.9g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>1.8g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Pasta (Cooked)</div>
+                <div class="card-body">
+                    <div class="carb-value">30.9g <span class="carb-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Pasta is typically made from durum wheat semolina or flour. It's a versatile food that forms the base of many Mediterranean dishes and provides a good source of complex carbohydrates.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>158 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>5.8g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>1.8g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Honey</div>
+                <div class="card-body">
+                    <div class="carb-value">82.4g <span class="carb-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Honey is a sweet, viscous food substance produced by bees. It consists primarily of simple sugars, predominantly fructose and glucose, making it very high in carbohydrates.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>304 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>0.3g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>0.2g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Bananas</div>
+                <div class="card-body">
+                    <div class="carb-value">22.8g <span class="carb-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Bananas are a widely consumed fruit that contains significant amounts of potassium, vitamin B6, and vitamin C. They're particularly known for their carbohydrate content, which increases as they ripen.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>89 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>1.1g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>2.6g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Oats (Raw)</div>
+                <div class="card-body">
+                    <div class="carb-value">66.3g <span class="carb-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Oats are a whole grain cereal known for their high fiber content, particularly beta-glucans. They provide a rich source of complex carbohydrates and are popular as a breakfast food worldwide.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>389 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>16.9g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>10.6g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Sweet Potatoes</div>
+                <div class="card-body">
+                    <div class="carb-value">20.1g <span class="carb-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Sweet potatoes are starchy root vegetables rich in beta-carotene, which gives them their orange color. They provide complex carbohydrates along with significant amounts of vitamin A and potassium.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>86 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>1.6g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>3.0g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Dried Dates</div>
+                <div class="card-body">
+                    <div class="carb-value">75.0g <span class="carb-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Dates are the fruit of the date palm tree and are particularly high in natural sugars. They're a good source of fiber, potassium, and several antioxidants while being extremely rich in carbohydrates.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>282 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td>2.5g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>8.0g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>CarbTracker &copy; 2025 - Your resource for nutritional information</p>
+        <p>Disclaimer: Nutritional values may vary slightly depending on preparation methods and specific varieties.</p>
+    </footer>
+
+    <script>
+        // Animation for floating carb elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const carbAnimation = document.getElementById('carbAnimation');
+            const carbItems = ['Glucose', 'Starch', 'Fiber', 'Carbs', '🍚', '🍞', '🥔', '🍝', '🍯', '🍌', '🥣', '🍠', '🌾'];
+            
+            // Create 25 floating elements
+            for (let i = 0; i < 25; i++) {
+                createFloatingElement(carbAnimation, carbItems);
+            }
+        });
+        
+        function createFloatingElement(parent, items) {
+            const element = document.createElement('div');
+            element.className = 'floating-carb';
+            element.textContent = items[Math.floor(Math.random() * items.length)];
+            
+            // Random positioning
+            const left = Math.random() * 100;
+            const size = 1 + Math.random() * 1.5;
+            const duration = 15 + Math.random() * 30;
+            const delay = Math.random() * 15;
+            
+            element.style.left = `${left}%`;
+            element.style.fontSize = `${size}rem`;
+            element.style.animationDuration = `${duration}s`;
+            element.style.animationDelay = `${delay}s`;
+            
+            parent.appendChild(element);
+        }
+    </script>
+</body>
+</html> 

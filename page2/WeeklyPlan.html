@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weekly Workout Planner</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #332a2a, #222);
+      /*background-image: url("T3.jpeg");
+      height: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;*/
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .planner {
+      background-color: #111;
+      border: 3px solid #FFD700;
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 0 15px #FFD70055;
+    }
+
+    h1 {
+      color: #FFD700;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      color: #FFD700;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      border: 2px solid #FFD700;
+      border-radius: 10px;
+      background: #222;
+      color: #fff;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .btn {
+      background-color: #FFD700;
+      color: #000;
+      padding: 12px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 15px;
+    }
+
+    .btn:hover {
+      background-color: #fff;
+      color: #000;
+    }
+
+    .output {
+      margin-top: 20px;
+      background-color: #222;
+      border: 2px solid #FFD700;
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    .error {
+      color: #ff4444;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="planner">
+    <h1>Weekly Workout Planner</h1>
+    <form id="workoutForm">
+      <div><label for="monday">Monday:</label><input type="text" id="monday" /></div>
+      <div><label for="tuesday">Tuesday:</label><input type="text" id="tuesday" /></div>
+      <div><label for="wednesday">Wednesday:</label><input type="text" id="wednesday" /></div>
+      <div><label for="thursday">Thursday:</label><input type="text" id="thursday" /></div>
+      <div><label for="friday">Friday:</label><input type="text" id="friday" /></div>
+      <div><label for="saturday">Saturday:</label><input type="text" id="saturday" /></div>
+      <div><label for="sunday">Sunday:</label><input type="text" id="sunday" /></div>
+
+      <button type="button" class="btn" onclick="submitPlan()">Submit Plan</button>
+      <button type="button" class="btn" onclick="window.print()">Print Plan</button>
+      <button type="button" class="btn" onclick="goHome()">Home</button>
+      <div class="error" id="errorMsg"></div>
+    </form>
+
+    <div class="output" id="outputBox" style="display: none;">
+      <h2>Your Workout Plan</h2>
+      <ul id="outputList"></ul>
+    </div>
+  </div>
+
+  <script>
+    function goHome() {
+    window.location.href = "Tracker.html"; // Replace with your actual home page file if different
+  }
+    function submitPlan() {
+      const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+      const errorBox = document.getElementById("errorMsg");
+      const outputBox = document.getElementById("outputBox");
+      const outputList = document.getElementById("outputList");
+
+      outputList.innerHTML = "";
+      errorBox.textContent = "";
+
+      let isValid = true;
+
+      days.forEach(day => {
+        const value = document.getElementById(day).value.trim();
+        if (!value) isValid = false;
+      });
+
+      if (!isValid) {
+        errorBox.textContent = "Please fill all the fields.";
+        outputBox.style.display = "none";
+        return;
+      }
+
+      days.forEach(day => {
+        const value = document.getElementById(day).value.trim();
+        const li = document.createElement("li");
+        li.textContent = `${day.charAt(0).toUpperCase() + day.slice(1)}: ${value}`;
+        outputList.appendChild(li);
+      });
+
+      outputBox.style.display = "block";
+    }
+  </script>
+</body>
+</html>

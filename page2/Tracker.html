@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Fit - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-image: url("T3.jpeg");
+      height: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      /*background: linear-gradient(to bottom right, #8b7e08, #eeea0a, #4c7e14);*/
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      color: #000;
+    }
+
+    h1 {
+      color: #f1c40f;
+      font-size: 36px;
+      margin-bottom: 50px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeInDown 1s ease forwards;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 25px;
+      width: 100%;
+      max-width: 900px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      background-color: #000;
+      color: #f1c40f;
+      padding: 20px 40px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 2px solid #f1c40f;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideFadeIn 0.8s ease forwards;
+    }
+
+    .action-btn:nth-child(1) { animation-delay: 0.3s; }
+    .action-btn:nth-child(2) { animation-delay: 0.6s; }
+    .action-btn:nth-child(3) { animation-delay: 0.9s; }
+
+    .action-btn:hover {
+      background-color: #f1c40f;
+      color: #000;
+      transform: scale(1.08);
+      box-shadow: 0 0 20px #f1c40f88;
+    }
+
+    .home-link {
+      margin-top: 60px;
+      background-color: #fff;
+      color: #000;
+      padding: 20px 50px;
+      border-radius: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 22px;
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideFadeIn 0.8s ease forwards;
+      animation-delay: 1.2s;
+    }
+
+    .home-link:hover {
+      background: #f1c40f;
+      color: #000;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(241, 196, 15, 0.5);
+    }
+
+    @keyframes slideFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .btn-group {
+        flex-direction: column;
+        align-items: center;
+      }
+      .action-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .action-btn {
+        font-size: 16px;
+        padding: 16px 30px;
+      }
+
+      .home-link {
+        font-size: 18px;
+        padding: 16px 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to Dumb fIT</h1>
+
+  <div class="btn-group">
+    <a href="BMI.html" class="action-btn">BMI Calculator</a>
+    <a href="Goal.html" class="action-btn">Weight Goals</a>
+    <a href="WeeklyPlan.html" class="action-btn">Workout Planner</a>
+  </div>
+
+  <a href="Main2.html" class="home-link">Return to Main Home</a>
+
+</body>
+</html>

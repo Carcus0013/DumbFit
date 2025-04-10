@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DumbFit - Muscle Map</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <header>
+    <h1>DumbFit</h1>
+    <hr>
+    
+  </header>
+
+  <div class="container">
+    <div class="gender-switch">
+      <button onclick="switchGender('male')">Male</button>
+      <button onclick="switchGender('female')">Female</button>
+    </div>
+
+    <div class="muscle-map-box">
+      <object id="maleMap" class="muscle-map" data="images/male_muscle_map1.svg" type="image/svg+xml"></object>
+      <object id="femaleMap" class="muscle-map" data="images/female_muscle_map11.svg" type="image/svg+xml" ></object>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

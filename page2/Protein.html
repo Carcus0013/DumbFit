@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProteinTracker - Protein Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #111;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            background-color: #111;
+        }
+        
+        .floating-protein {
+            position: absolute;
+            font-weight: bold;
+            color: #ffcc00;
+            animation: float 15s linear infinite;
+            opacity: 0.7;
+            font-size: 1.2rem;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+        
+        header {
+            background-color: #000;
+            color: #ffcc00;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #ffcc00;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .intro {
+            margin-bottom: 30px;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-left: 4px solid #ffcc00;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .food-card {
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #333;
+        }
+        
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2);
+            border-color: #ffcc00;
+        }
+        
+        .card-header {
+            background-color: #000;
+            color: #ffcc00;
+            padding: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 2px solid #ffcc00;
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        .protein-value {
+            font-size: 2rem;
+            color: #ffcc00;
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .protein-unit {
+            font-size: 1rem;
+            color: #aaa;
+        }
+        
+        .food-details {
+            margin-top: 15px;
+            line-height: 1.6;
+            color: #ddd;
+        }
+        
+        .nutrition-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        
+        .nutrition-table th, .nutrition-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        
+        .nutrition-table th {
+            color: #ffcc00;
+        }
+        
+        footer {
+            background-color: #000;
+            color: #888;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 3px solid #ffcc00;
+        }
+        
+        .section-title {
+            color: #ffcc00;
+            margin: 40px 0 20px;
+            border-bottom: 2px solid #ffcc00;
+            padding-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .calculator {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border-left: 4px solid #ffcc00;
+        }
+        
+        .calculator h3 {
+            margin-bottom: 15px;
+            color: #ffcc00;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ddd;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            border: 1px solid #ffcc00;
+            border-radius: 4px;
+            color: #fff;
+        }
+        
+        .input-group select {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            border: 1px solid #ffcc00;
+            border-radius: 4px;
+            color: #fff;
+        }
+        
+        button {
+            background-color: #ffcc00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #ffaa00;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 204, 0, 0.1);
+            border-left: 4px solid #ffcc00;
+            display: none;
+        }
+        
+        .back-button {
+            margin-top: 20px;
+            background-color: #333;
+            color: #ffcc00;
+            border: 1px solid #ffcc00;
+        }
+        
+        .back-button:hover {
+            background-color: #444;
+        }
+        
+        @media (max-width: 768px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation" id="proteinAnimation"></div>
+    
+    <header>
+        <h1>ProteinTracker</h1>
+        <div class="subtitle">Your Protein Intake Calculator</div>
+    </header>
+    
+    <div class="container">
+        <div class="intro">
+            <p>Protein is an essential macronutrient that helps build and repair tissues, make enzymes and hormones, and is an important building block of bones, muscles, cartilage, skin, and blood. Use this calculator to determine your recommended daily protein intake based on your body weight and activity level.</p>
+        </div>
+        
+        <div class="calculator">
+            <h3>Protein Intake Calculator</h3>
+            <div class="input-group">
+                <label for="weight">Your Weight (kg)</label>
+                <input type="number" id="weight" placeholder="Enter your weight in kilograms">
+            </div>
+            <div class="input-group">
+                <label for="activity">Activity Level</label>
+                <select id="activity">
+                    <option value="1.2">Sedentary (little or no exercise)</option>
+                    <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
+                    <option value="1.55" selected>Moderately active (moderate exercise 3-5 days/week)</option>
+                    <option value="1.725">Very active (hard exercise 6-7 days/week)</option>
+                    <option value="1.9">Extremely active (very hard exercise & physical job)</option>
+                </select>
+            </div>
+            <button onclick="calculateProtein()">Calculate Protein Needs</button>
+            
+            <div class="result" id="result">
+                <h4>Your Recommended Protein Intake</h4>
+                <p>Based on your weight and activity level, you should consume approximately:</p>
+                <p id="proteinResult" class="protein-value">0g <span class="protein-unit">per day</span></p>
+                <p id="proteinRange"></p>
+                <p><small>Note: These are general guidelines. Consult a healthcare professional for personalized advice.</small></p>
+            </div>
+            
+            <button class="back-button" onclick="window.location.href='Diet.html'">Back to CarbTracker</button>
+        </div>
+        
+        <h2 class="section-title">High-Protein Foods</h2>
+        
+        <div class="card-container">
+            <div class="food-card">
+                <div class="card-header">Chicken Breast</div>
+                <div class="card-body">
+                    <div class="protein-value">31.0g <span class="protein-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Chicken breast is one of the most popular high-protein foods. It's lean, versatile, and packed with essential amino acids needed for muscle growth and repair.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>165 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>3.6g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td>0g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Salmon</div>
+                <div class="card-body">
+                    <div class="protein-value">25.0g <span class="protein-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Salmon is not only high in protein but also rich in omega-3 fatty acids, which are beneficial for heart health and brain function.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>208 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>13g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td>0g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Eggs</div>
+                <div class="card-body">
+                    <div class="protein-value">13.0g <span class="protein-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Eggs are a complete protein source, containing all nine essential amino acids. They're also rich in vitamins and minerals.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>143 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>9.5g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td>0.7g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Greek Yogurt</div>
+                <div class="card-body">
+                    <div class="protein-value">10.0g <span class="protein-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Greek yogurt is packed with protein and probiotics that support gut health. It's a great option for breakfast or snacks.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>59 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>0.4g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td>3.6g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Lentils</div>
+                <div class="card-body">
+                    <div class="protein-value">9.0g <span class="protein-unit">per 100g (cooked)</span></div>
+                    <div class="food-details">
+                        <p>Lentils are a great plant-based protein source that's also high in fiber. They're perfect for vegetarians and vegans.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>116 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>0.4g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td>20g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Almonds</div>
+                <div class="card-body">
+                    <div class="protein-value">21.0g <span class="protein-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Almonds are a nutrient-dense snack that provides protein along with healthy fats, fiber, and vitamin E.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>579 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>50g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td>22g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Tofu</div>
+                <div class="card-body">
+                    <div class="protein-value">8.0g <span class="protein-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Tofu is made from soybeans and is a complete protein source. It's versatile and absorbs flavors well.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>76 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>4.8g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td>1.9g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Lean Beef</div>
+                <div class="card-body">
+                    <div class="protein-value">26.0g <span class="protein-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Lean beef is rich in high-quality protein and also provides important nutrients like iron and vitamin B12.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>250 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>15g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td>0g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="food-card">
+                <div class="card-header">Cottage Cheese</div>
+                <div class="card-body">
+                    <div class="protein-value">11.0g <span class="protein-unit">per 100g</span></div>
+                    <div class="food-details">
+                        <p>Cottage cheese is a fresh cheese that's low in fat and high in casein protein, which digests slowly.</p>
+                        <table class="nutrition-table">
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>Calories</td>
+                                <td>98 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>4.3g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td>3.4g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>ProteinTracker &copy; 2025 - Your resource for protein information</p>
+        <p>Disclaimer: Nutritional values may vary slightly depending on preparation methods and specific varieties.</p>
+    </footer>
+
+    <script>
+        // Animation for floating protein elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const proteinAnimation = document.getElementById('proteinAnimation');
+            const proteinItems = ['Protein', 'Amino', 'Muscle', 'Whey', '🥩', '🍗', '🐟', '🥚', '🥛', '🧀', '🥜', '🌱', '🍳'];
+            
+            // Create 25 floating elements
+            for (let i = 0; i < 25; i++) {
+                createFloatingElement(proteinAnimation, proteinItems);
+            }
+        });
+        
+        function createFloatingElement(parent, items) {
+            const element = document.createElement('div');
+            element.className = 'floating-protein';
+            element.textContent = items[Math.floor(Math.random() * items.length)];
+            
+            // Random positioning
+            const left = Math.random() * 100;
+            const size = 1 + Math.random() * 1.5;
+            const duration = 15 + Math.random() * 30;
+            const delay = Math.random() * 15;
+            
+            element.style.left = `${left}%`;
+            element.style.fontSize = `${size}rem`;
+            element.style.animationDuration = `${duration}s`;
+            element.style.animationDelay = `${delay}s`;
+            
+            parent.appendChild(element);
+        }
+        
+        function calculateProtein() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const activityLevel = parseFloat(document.getElementById('activity').value);
+            
+            if (isNaN(weight)) {
+                alert('Please enter a valid weight');
+                return;
+            }
+            
+            // Standard protein recommendation: 0.8g per kg of body weight
+            // Adjusted for activity level
+            const baseProtein = weight * 0.8;
+            const adjustedProtein = baseProtein * activityLevel;
+            
+            // For athletes or those building muscle, range is 1.2-2.2g per kg
+            const athleteMin = weight * 1.2;
+            const athleteMax = weight * 2.2;
+            
+            document.getElementById('proteinResult').innerHTML = `${adjustedProtein.toFixed(1)}g <span class="protein-unit">per day</span>`;
+            document.getElementById('proteinRange').innerHTML = `For muscle building: ${athleteMin.toFixed(1)}g - ${athleteMax.toFixed(1)}g per day`;
+            
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

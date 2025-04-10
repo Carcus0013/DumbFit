@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Fit - BMI Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #d5d81d, #9dd41d);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: #111;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+
+    h1, h2, h3 {
+      color: #ffd700;
+    }
+
+    .calculator {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    form {
+      flex: 1;
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background-color: #333;
+      color: #fff;
+    }
+
+    .btn {
+      background-color: #ffd700;
+      color: #000;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      margin-top: 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #e6c200;
+    }
+
+    .result {
+      flex: 1;
+    }
+
+    .bmi-meter, .bmi-box, .bmi-classification {
+      background: #222;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .bmi-indicator {
+      height: 15px;
+      width: 0;
+      background: #ffd700;
+      border-radius: 5px;
+      transition: width 0.5s;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+    }
+
+    .back-home-btn {
+      display: inline-block;
+      margin-top: 30px;
+      background-color: #ffd700;
+      color: #000;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .back-home-btn:hover {
+      background-color: #e6c200;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>BMI Calculator</h1>
+    <div class="calculator">
+      <form id="bmi-form" onsubmit="return validateForm()">
+        <label for="gender">Gender</label>
+        <select id="gender">
+          <option value="">-- Select --</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+
+        <label for="age">Age</label>
+        <input type="number" id="age" placeholder="Enter age">
+
+        <label for="height">Height</label>
+        <input type="number" id="feet" placeholder="Feet">
+        <input type="number" id="inches" placeholder="Inches">
+
+        <label for="weight">Weight (lbs)</label>
+        <input type="number" id="weight" placeholder="Weight">
+
+        <button type="submit" class="btn">Calculate BMI</button>
+      </form>
+
+      <div class="result">
+        <h2>Your BMI: <span id="bmi-value">[ ]</span></h2>
+        <div class="bmi-meter">
+          <div id="bmi-indicator" class="bmi-indicator"></div>
+        </div>
+        <div class="bmi-box">
+          <h3>BMI Classification:</h3>
+          <p>Underweight: &lt;18.5</p>
+          <p>Normal weight: 18.5 - 24.9</p>
+          <p>Overweight: 25 - 29.9</p>
+          <p>Obese: 30 or greater</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Risk Factors</h2>
+    <video controls>
+      <source src="RiskFactor.MP4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <div>
+      <h3>Risks of Being Overweight</h3>
+      <ul>
+        <li>High blood pressure and cholesterol</li>
+        <li>Type 2 diabetes</li>
+        <li>Heart disease and stroke</li>
+        <li>Sleep apnea and breathing problems</li>
+        <li>Joint issues and osteoarthritis</li>
+      </ul>
+
+      <h3>Risks of Being Underweight</h3>
+      <ul>
+        <li>Malnutrition and vitamin deficiencies</li>
+        <li>Weakened immune system</li>
+        <li>Osteoporosis and fractures</li>
+        <li>Irregular menstruation</li>
+        <li>Fatigue and developmental delays</li>
+      </ul>
+    </div>
+    <a href="Tracker.html" class="back-home-btn">Back to Home</a>
+  </div>
+
+  <script>
+    function validateForm() {
+      const gender = document.getElementById("gender").value;
+      const age = document.getElementById("age").value;
+      const feet = document.getElementById("feet").value;
+      const inches = document.getElementById("inches").value;
+      const weight = document.getElementById("weight").value;
+
+      if (!gender || !age || !feet || !inches || !weight) {
+        alert("Please fill out all fields before calculating BMI.");
+        return false;
+      }
+      if (age <= 0 || feet <= 0 || inches < 0 || inches > 11 || weight <= 0) {
+    alert("Please enter valid numerical values.");
+    return false;
+  }
+
+      calculateBMI();
+      return false;
+    }
+
+    function calculateBMI() {
+      let feet = parseInt(document.getElementById("feet").value) || 0;
+      let inches = parseInt(document.getElementById("inches").value) || 0;
+      let weight = parseFloat(document.getElementById("weight").value);
+      let heightInInches = (feet * 12) + inches;
+      let heightInMeters = heightInInches * 0.0254;
+      let bmi = (weight * 0.453592) / (heightInMeters * heightInMeters);
+
+      let bmiValue = document.getElementById("bmi-value");
+      let indicator = document.getElementById("bmi-indicator");
+
+      let bmiCategory = "";
+
+      if (bmi < 18.5) {
+        bmiCategory = "Underweight";
+        indicator.style.background = "#1e90ff";
+      } else if (bmi < 25) {
+        bmiCategory = "Normal weight";
+        indicator.style.background = "#32cd32";
+      } else if (bmi < 30) {
+        bmiCategory = "Overweight";
+        indicator.style.background = "#ffa500";
+      } else {
+        bmiCategory = "Obese";
+        indicator.style.background = "#ff4500";
+      }
+
+      bmiValue.textContent = `${bmi.toFixed(1)} [${bmiCategory}]`;
+      indicator.style.width = Math.min(100, (bmi / 40) * 100) + "%";
+    }
+  </script>
+</body>
+</html>
